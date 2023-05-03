@@ -1,50 +1,121 @@
 <%@page import="java.time.LocalDate"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 <%@ page import="java.sql.*"%>
 <!DOCTYPE html>
 <html>
 <head>
-<%@include file="dbconn.jsp"%>
 
-<meta charset="EUC-KR">
+<meta charset="utf-8">
 <title>Insert title here</title>
 <style type="text/css">
 #ctxt {
 	color: blue;
-} /* id¸íÀÌ ctxtÀÎ ¿ä¼ÒÀÇ ±ÛÀÚµéÀ» ÆÄ¶õ»öÀ¸·Î Ã³¸®ÇÔ */
+} /* idëª…ì´ ctxtì¸ ìš”ì†Œì˜ ê¸€ìë“¤ì„ íŒŒë€ìƒ‰ìœ¼ë¡œ ì²˜ë¦¬í•¨ */
 .p {
 	border: 10px groove #06c;
 }
 </style>
 </head>
 <body>
+	<script type="text/javascript">
+function check(input){
+	var form = document.frm;
+	var userId = form.id;
+	var userName = form.name;
+	var userPw = form.pw;
+	var userRepw = form.re_pw;
+	var regExpName = /^[ê°€-í£]*$/;
+	var regExpId = /^[a-z0-9]*$/;
+	var regExpPw = /^[a-zA-Z0-9!@#$%^&*()?_~]*$/;
+/* var result = document.getElementById("result"); */
+if(userName.value == ""){
+	alert("ì´ë¦„ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+	userName.focus();
+	return false;
+}else if(userName.value.indexOf(" ") != -1){
+	alert("ì´ë¦„ì— ê³µë°±ì´ í¬í•¨ë˜ì–´ ìˆìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.")
+	userName.focus();
+	return false;
+}else if(!regExpName.test(userName.value)){
+	alert("ì´ë¦„ì€ í•œê¸€ë§Œìœ¼ë¡œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+	userName.select();
+	return false;
 
+}else if(userId.value ==""){
+	alert("ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
+	 userId.focus();
+	 return false;
+
+}else if(userId.value.indexOf(" ") != -1){
+	alert("ì•„ì´ë””ì— ê³µë°±ì´ í¬í•¨ë˜ì–´ ìˆìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+	userId.focus();
+	return false;
+}
+else if(userId.value.length < 4 || userId.value.length > 12){
+	alert("ì•„ì´ë””ëŠ” 4~12ìë¡œ ì‘ì„±í•´ì£¼ì„¸ìš”.");
+	userId.focus();
+	return false;
+}else if(!regExpId.test(userId.value)){
+	alert("ì•„ì´ë””ëŠ” ì˜ì–´ ì†Œë¬¸ìì™€ ìˆ«ìë§Œ ì…ë ¥ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
+	userId.focus();
+	return false;
+}else if(userPw.value==""){
+	alert("ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
+	return false;
+
+}else if(userPw.value.indexOf(" ") != -1){
+	alert("ë¹„ë°€ë²ˆí˜¸ì— ê³µë°±ì´ í¬í•¨ë˜ì–´ ìˆìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+	userPw.focus();
+	return false;
+}else if(!regExpPw.test(userPw.value)){
+	alert("ë¹„ë°€ë²ˆí˜¸ëŠ” ìˆ«ì, ì†Œë¬¸ì, íŠ¹ìˆ˜ë¬¸ìë¡œë§Œ ì…ë ¥ê°€ëŠ¥í•©ë‹ˆë‹¤.");
+	return false;
+}else if(userPw.value !== userRepw.value){
+	alert("ë¹„ë°€ë²ˆí˜¸ì™€ ë¹„ë°€ë²ˆí˜¸í™•ì¸ì´ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. ë‹¤ì‹œì…ë ¥í•´ì£¼ì„¸ìš”.");
+	return false;
+	
+}
+}
+/* if(result.innerHTML ==""){
+	alert("ì•„ì´ë”” ì¤‘ë³µê²€ì‚¬ë¥¼ í•´ì£¼ì„¸ìš”.");
+	return false;
+}
+if(result.innerHTML ==""){
+	alert("ì•„ì´ë””ê°€ ì¤‘ë³µë˜ì—ˆìŠµë‹ˆë‹¤.");
+	userId.focus();
+	return false; */
+
+</script>
 	<h3>
-		<p id="ctxt">È¸¿ø°¡ÀÔÃ¢
+		<p id="ctxt">íšŒì›ê°€ì…ì°½
 	</h3>
-	<form action="register_process.jsp" name="form" method="post">
+	<form name="frm" method="post" action="#">
 		<p>
-			ÀÌ¸§ : <input type="text" name="name">
+			ì´ë¦„ : <input type="text" name="name">
 		</p>
 		<p>
-			¾ÆÀÌµğ : <input type="text" name="id"><input type="button"
-				onclick="check()" value="Áßº¹°Ë»çÇÏ±â">
+			ì•„ì´ë”” : <input type="text" name="id"
+				placeholder="ì•„ì´ë””ëŠ” 4~12ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì„¸ìš”." size="30"> <input
+				type="button" value="ì¤‘ë³µê²€ì‚¬í•˜ê¸°">
 		<p>
-			ºñ¹Ğ¹øÈ£ : <input type="text" name="pw">
+			ë¹„ë°€ë²ˆí˜¸ : <input type="password" name="pw"
+				placeholder="ë¹„ë°€ë²ˆí˜¸ëŠ” 6~12ì ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì„¸ìš”." size="35">
+		<p>
+			ë¹„ë°€ë²ˆí˜¸ í™•ì¸: <input type="password" name="re_pw">
 
 		</p>
 		<p>
-			Æ÷Áö¼Ç : <input type="radio" name="position" value="Å¾">Å¾ <input
-				type="radio" name="position" value="¹Ìµå">¹Ìµå <input
-				type="radio" name="position" value="Á¤±Û">Á¤±Û <input
-				type="radio" name="position" value="¿øµô">¿øµô <input
-				type="radio" name="position" value="¼­Æı">¼­Æı
+			í¬ì§€ì…˜ : <input type="radio" name="position" value="íƒ‘">íƒ‘ <input
+				type="radio" name="position" value="ë¯¸ë“œ">ë¯¸ë“œ <input
+				type="radio" name="position" value="ì •ê¸€">ì •ê¸€ <input
+				type="radio" name="position" value="ì›ë”œ">ì›ë”œ <input
+				type="radio" name="position" value="ì„œí¿">ì„œí¿
 
 		</p>
 
 		<p>
-			ÀÌ¸ŞÀÏ : <input type="text" name="email1" size="15"> @<select
+			ì´ë©”ì¼ : <input type="text" name="email1" size="15"> @<select
 				name="email2">
 				<option value="naver.com">naver.com</option>
 				<option value="daum.net">daum.net</option>
@@ -53,10 +124,10 @@
 
 			</select>
 		<p>
-			¼ºº° : <input type="radio" name="sex" value="³²¼º" checked>³²¼º <input
-				type="radio" name="sex" value="¿©¼º">¿©¼º
+			ì„±ë³„ : <input type="radio" name="sex" value="ë‚¨ì„±" checked>ë‚¨ì„± <input
+				type="radio" name="sex" value="ì—¬ì„±">ì—¬ì„±
 		<p>
-			»ı³â¿ùÀÏ : <select name="birthYear">
+			ìƒë…„ì›”ì¼ : <select name="birthYear">
 				<%
 				int currentyear = java.time.LocalDate.now().getYear();
 				for (int year = currentyear; year >= 1950; year--) {
@@ -67,7 +138,7 @@
 					}
 					%>
 				
-			</select> ³â <select name="birthMonth">
+			</select> ë…„ <select name="birthMonth">
 				<%
 				for (int i = 1; i <= 12; i++) {
 				%>
@@ -75,7 +146,7 @@
 				<%
 				}
 				%>
-			</select>¿ù <select name="birthDay">
+			</select>ì›” <select name="birthDay">
 				<%
 				for (int j = 1; j < 32; j++) {
 				%>
@@ -83,16 +154,16 @@
 				<%
 				}
 				%>
-			</select>ÀÏ
+			</select>ì¼
 
 		</p>
-		<p>ÁÖ¼Ò
+		<p>ì£¼ì†Œ
 		<p>
-			<input type="text" id="postcode" placeholder="¿ìÆí¹øÈ£"> <input
-				type="button" onclick="execDaumPostcode()" value="¿ìÆí¹øÈ£ Ã£±â"><br>
-			<input type="text" id="address" placeholder="ÁÖ¼Ò"><br> <input
-				type="text" id="detailAddress" placeholder="»ó¼¼ÁÖ¼Ò"> <input
-				type="text" id="extraAddress" placeholder="Âü°íÇ×¸ñ">
+			<input type="text" id="postcode" placeholder="ìš°í¸ë²ˆí˜¸"> <input
+				type="button" onclick="execDaumPostcode()" value="ìš°í¸ë²ˆí˜¸ ì°¾ê¸°"><br>
+			<input type="text" id="address" placeholder="ì£¼ì†Œ"><br> <input
+				type="text" id="detailAddress" placeholder="ìƒì„¸ì£¼ì†Œ"> <input
+				type="text" id="extraAddress" placeholder="ì°¸ê³ í•­ëª©">
 
 			<script
 				src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -101,50 +172,50 @@
 					new daum.Postcode(
 							{
 								oncomplete : function(data) {
-									// ÆË¾÷¿¡¼­ °Ë»ö°á°ú Ç×¸ñÀ» Å¬¸¯ÇßÀ»¶§ ½ÇÇàÇÒ ÄÚµå¸¦ ÀÛ¼ºÇÏ´Â ºÎºĞ.
+									// íŒì—…ì—ì„œ ê²€ìƒ‰ê²°ê³¼ í•­ëª©ì„ í´ë¦­í–ˆì„ë•Œ ì‹¤í–‰í•  ì½”ë“œë¥¼ ì‘ì„±í•˜ëŠ” ë¶€ë¶„.
 
-									// °¢ ÁÖ¼ÒÀÇ ³ëÃâ ±ÔÄ¢¿¡ µû¶ó ÁÖ¼Ò¸¦ Á¶ÇÕÇÑ´Ù.
-									// ³»·Á¿À´Â º¯¼ö°¡ °ªÀÌ ¾ø´Â °æ¿ì¿£ °ø¹é('')°ªÀ» °¡Áö¹Ç·Î, ÀÌ¸¦ Âü°íÇÏ¿© ºĞ±â ÇÑ´Ù.
-									var addr = ''; // ÁÖ¼Ò º¯¼ö
-									var extraAddr = ''; // Âü°íÇ×¸ñ º¯¼ö
+									// ê° ì£¼ì†Œì˜ ë…¸ì¶œ ê·œì¹™ì— ë”°ë¼ ì£¼ì†Œë¥¼ ì¡°í•©í•œë‹¤.
+									// ë‚´ë ¤ì˜¤ëŠ” ë³€ìˆ˜ê°€ ê°’ì´ ì—†ëŠ” ê²½ìš°ì—” ê³µë°±('')ê°’ì„ ê°€ì§€ë¯€ë¡œ, ì´ë¥¼ ì°¸ê³ í•˜ì—¬ ë¶„ê¸° í•œë‹¤.
+									var addr = ''; // ì£¼ì†Œ ë³€ìˆ˜
+									var extraAddr = ''; // ì°¸ê³ í•­ëª© ë³€ìˆ˜
 
-									//»ç¿ëÀÚ°¡ ¼±ÅÃÇÑ ÁÖ¼Ò Å¸ÀÔ¿¡ µû¶ó ÇØ´ç ÁÖ¼Ò °ªÀ» °¡Á®¿Â´Ù.
-									if (data.userSelectedType === 'R') { // »ç¿ëÀÚ°¡ µµ·Î¸í ÁÖ¼Ò¸¦ ¼±ÅÃÇßÀ» °æ¿ì
+									//ì‚¬ìš©ìê°€ ì„ íƒí•œ ì£¼ì†Œ íƒ€ì…ì— ë”°ë¼ í•´ë‹¹ ì£¼ì†Œ ê°’ì„ ê°€ì ¸ì˜¨ë‹¤.
+									if (data.userSelectedType === 'R') { // ì‚¬ìš©ìê°€ ë„ë¡œëª… ì£¼ì†Œë¥¼ ì„ íƒí–ˆì„ ê²½ìš°
 										addr = data.roadAddress;
-									} else { // »ç¿ëÀÚ°¡ Áö¹ø ÁÖ¼Ò¸¦ ¼±ÅÃÇßÀ» °æ¿ì(J)
+									} else { // ì‚¬ìš©ìê°€ ì§€ë²ˆ ì£¼ì†Œë¥¼ ì„ íƒí–ˆì„ ê²½ìš°(J)
 										addr = data.jibunAddress;
 									}
 
-									// »ç¿ëÀÚ°¡ ¼±ÅÃÇÑ ÁÖ¼Ò°¡ µµ·Î¸í Å¸ÀÔÀÏ¶§ Âü°íÇ×¸ñÀ» Á¶ÇÕÇÑ´Ù.
+									// ì‚¬ìš©ìê°€ ì„ íƒí•œ ì£¼ì†Œê°€ ë„ë¡œëª… íƒ€ì…ì¼ë•Œ ì°¸ê³ í•­ëª©ì„ ì¡°í•©í•œë‹¤.
 									if (data.userSelectedType === 'R') {
-										// ¹ıÁ¤µ¿¸íÀÌ ÀÖÀ» °æ¿ì Ãß°¡ÇÑ´Ù. (¹ıÁ¤¸®´Â Á¦¿Ü)
-										// ¹ıÁ¤µ¿ÀÇ °æ¿ì ¸¶Áö¸· ¹®ÀÚ°¡ "µ¿/·Î/°¡"·Î ³¡³­´Ù.
+										// ë²•ì •ë™ëª…ì´ ìˆì„ ê²½ìš° ì¶”ê°€í•œë‹¤. (ë²•ì •ë¦¬ëŠ” ì œì™¸)
+										// ë²•ì •ë™ì˜ ê²½ìš° ë§ˆì§€ë§‰ ë¬¸ìê°€ "ë™/ë¡œ/ê°€"ë¡œ ëë‚œë‹¤.
 										if (data.bname !== ''
-												&& /[µ¿|·Î|°¡]$/g.test(data.bname)) {
+												&& /[ë™|ë¡œ|ê°€]$/g.test(data.bname)) {
 											extraAddr += data.bname;
 										}
-										// °Ç¹°¸íÀÌ ÀÖ°í, °øµ¿ÁÖÅÃÀÏ °æ¿ì Ãß°¡ÇÑ´Ù.
+										// ê±´ë¬¼ëª…ì´ ìˆê³ , ê³µë™ì£¼íƒì¼ ê²½ìš° ì¶”ê°€í•œë‹¤.
 										if (data.buildingName !== ''
 												&& data.apartment === 'Y') {
 											extraAddr += (extraAddr !== '' ? ', '
 													+ data.buildingName
 													: data.buildingName);
 										}
-										// Ç¥½ÃÇÒ Âü°íÇ×¸ñÀÌ ÀÖÀ» °æ¿ì, °ıÈ£±îÁö Ãß°¡ÇÑ ÃÖÁ¾ ¹®ÀÚ¿­À» ¸¸µç´Ù.
+										// í‘œì‹œí•  ì°¸ê³ í•­ëª©ì´ ìˆì„ ê²½ìš°, ê´„í˜¸ê¹Œì§€ ì¶”ê°€í•œ ìµœì¢… ë¬¸ìì—´ì„ ë§Œë“ ë‹¤.
 										if (extraAddr !== '') {
 											extraAddr = ' (' + extraAddr + ')';
 										}
-										// Á¶ÇÕµÈ Âü°íÇ×¸ñÀ» ÇØ´ç ÇÊµå¿¡ ³Ö´Â´Ù.
+										// ì¡°í•©ëœ ì°¸ê³ í•­ëª©ì„ í•´ë‹¹ í•„ë“œì— ë„£ëŠ”ë‹¤.
 										document.getElementById("extraAddress").value = extraAddr;
 
 									} else {
 										document.getElementById("extraAddress").value = '';
 									}
 
-									// ¿ìÆí¹øÈ£¿Í ÁÖ¼Ò Á¤º¸¸¦ ÇØ´ç ÇÊµå¿¡ ³Ö´Â´Ù.
+									// ìš°í¸ë²ˆí˜¸ì™€ ì£¼ì†Œ ì •ë³´ë¥¼ í•´ë‹¹ í•„ë“œì— ë„£ëŠ”ë‹¤.
 									document.getElementById('postcode').value = data.zonecode;
 									document.getElementById("address").value = addr;
-									// Ä¿¼­¸¦ »ó¼¼ÁÖ¼Ò ÇÊµå·Î ÀÌµ¿ÇÑ´Ù.
+									// ì»¤ì„œë¥¼ ìƒì„¸ì£¼ì†Œ í•„ë“œë¡œ ì´ë™í•œë‹¤.
 									document.getElementById("detailAddress")
 											.focus();
 								}
@@ -154,9 +225,9 @@
 
 		</p>
 		<p>
-			ÀÜ°í <input type="text" name="balance" value="0" readonly>(ÀÚµ¿ÀÔ·Â)
+			ì”ê³  <input type="text" name="balance" value="0" readonly>(ìë™ì…ë ¥)
 		</p>
-		<p>¿¬¶ôÃ³ :
+		<p>ì—°ë½ì²˜ :
 		<p>
 			<select name="phone1">
 				<option value="010">010</option>
@@ -166,15 +237,19 @@
 				<option value="019">019</option>
 			</select> - <input type="text" maxlength="4" size="4" name="phone2"> -
 			<input type="text" maxlength="4" size="4" name="phone3"> <input
-				type="button" value="Áßº¹°Ë»çÇÏ±â">
+				type="button" value="ì¤‘ë³µê²€ì‚¬í•˜ê¸°">
 		</p>
 		<p>
-			È¸¿øµî±Ş<input type="text" name="grade" value="bronze" readonly>(ÀÚµ¿ÀÔ·Â)
+			íšŒì›ë“±ê¸‰<input type="text" name="grade" value="bronze" readonly>(ìë™ì…ë ¥)
+
+
+
+		
 		<p>
-			<input type="submit" value="°¡ÀÔÇÏ±â">
+			<input type="submit" value="ê°€ì…í•˜ê¸°" onclick="check()">
 		</p>
 		<p>
-			<input type="reset" value="´Ù½Ã¾²±â">
+			<input type="reset" value="ë‹¤ì‹œì“°ê¸°">
 		</p>
 	</form>
 </body>
