@@ -25,9 +25,19 @@ function check(input){
 	var userName = form.name;
 	var userPw = form.pw;
 	var userRepw = form.re_pw;
+	var userPhone1 = form.phone1;
+	var userPhone2 = form.phone2;
+	var userPhone3 = form.phone3;
+	var userPhone = userPhone1 + userPhone2 + userPhone3;
+	var userEmail1 = form.email1;
+	var userEmail2 = form.email2;
+	var userEmail = userEmail1 + userEmail2;
+	var userdetailAddress = form.detailAddress
 	var regExpName = /^[가-힣]*$/;
 	var regExpId = /^[a-z0-9]*$/;
 	var regExpPw = /^[a-zA-Z0-9!@#$%^&*()?_~]*$/;
+	var regExpPhone= /^\d{3}-\d{3,4}-\d{4}$/;
+	var regExpEmail= /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 /* var result = document.getElementById("result"); */
 if(userName.value == ""){
 	alert("이름을 입력해주세요.");
@@ -74,7 +84,16 @@ else if(userId.value.length < 4 || userId.value.length > 12){
 }else if(userPw.value !== userRepw.value){
 	alert("비밀번호와 비밀번호확인이 일치하지 않습니다. 다시입력해주세요.");
 	return false;
-	
+}else if(!regExpEmail.test(userEmail.value)){
+	alert("이메일을 확인해주세요.");
+	return false;
+}else if(userdetailAddress.value.indexOf(" ") != -1){
+	alert("상세주소를 입력해주세요.");
+	return false;
+}
+}else if(!regExpPhone.test(userPhone.value)){
+	alert("연락처 번호를 확인해주세요.");
+	return false;
 }
 }
 /* if(result.innerHTML ==""){
@@ -241,6 +260,9 @@ if(result.innerHTML ==""){
 		</p>
 		<p>
 			회원등급<input type="text" name="grade" value="bronze" readonly>(자동입력)
+
+
+
 
 
 
