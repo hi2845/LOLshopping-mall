@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page import="java.time.LocalDateTime"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,15 +15,15 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style>
 div {
-  width:90%;
+	width: 90%;
 }
 </style>
 </head>
 <body>
 	<div class="container">
-		<img src="img/board.jpg" alt="My Image" width="1100" height="150">
+		<img src="img/board.jpg" alt="My Image" width="90%" height="15%">
 		<h2>게시판 글쓰기</h2>
-		<form action="write.jsp" method="post" >
+		<form action="boardsucess.jsp" method="post">
 			<div class="form-group">
 				<label for="title">제목</label> <input type="text"
 					class="form-control" id="title" placeholder="제목 입력(4-100)"
@@ -31,18 +32,23 @@ div {
 			<div class="form-group">
 				<label for="content">내용</label>
 				<textarea class="form-control" rows="5" id="content" name="content"
-					placeholder="내용 작성"></textarea>
+					placeholder="내용 작성" style="resize: none;"></textarea>
 			</div>
 			<p>
-			
 			<div class="form-group">
 				<label for="writer">작성자</label> <input type="text"
 					class="form-control" id="writer" placeholder="작성자(2자-10자)"
-					name="writer">
+					required="required" name="writer">
 			</div>
 			<button type="submit" class="btn btn-default">등록</button>
 		</form>
+		<p>
+		<form action="boardwrite.jsp" method="post">
+			<button type="submit" class="btn btn-default">취소</button>
+		</form>
+
 	</div>
 </body>
 </html>
+
 
