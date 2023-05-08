@@ -7,7 +7,8 @@
 
 <html>
 <head>
-<meta charset="UTF-8"><title>게시판 글쓰기</title>
+<meta charset="UTF-8">
+<title>게시판 글쓰기</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -17,15 +18,15 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style>
 div {
-	width: 70%;
+	width: 90%;
 }
-
 </style>
 </head>
 <body>
 	<%
 	request.setCharacterEncoding("utf-8");
-	String title = request.getParameter("title");
+	int Number =Integer.parseInt(request.getParameter("title"));
+	String title = "";
 	String content = "";
 	String writer = "";
 	LocalDateTime date = LocalDateTime.now();
@@ -37,11 +38,12 @@ div {
 	ResultSet rs = null;
 	try {
 
-		stmt = conn.prepareStatement("select * from board where title='" + title + "'");
+		stmt = conn.prepareStatement("select * from board where titlenum='" + Number + "'");
 
 		rs = stmt.executeQuery();
 
 		while (rs.next()) {
+			title = rs.getString("title");
 			content = rs.getString("content");
 			writer = rs.getString("writer");
 			date = rs.getTimestamp("date").toLocalDateTime();
@@ -67,20 +69,20 @@ div {
 		<h2>게시글</h2>
 		<table class="table table-hover" border="1">
 			<tr>
-				<th>제목</th>
+				<th style="width: 15%; text-align: center;">제목</th>
 				<th><%=title%></th>
 			</tr>
 			<tr>
-				<th>글쓴이</th>
+				<th style="text-align: center;">글쓴이</th>
 				<th><%=writer%></th>
 			</tr>
 			<tr>
-				<th>내용</th>
-				 <th style="height: 300px;"><%=content%></th>
+				<th style="text-align: center;">내용</th>
+				<th style="height: 300px;"><%=content%></th>
 			</tr>
 			<tr>
-				<th>작성일</th>
-				<th><%=date.toLocalDate()%></th>
+				<th style="text-align: center;">작성일</th>
+				<th style="text-align: center;"><%=date.toLocalDate()%></th>
 			</tr>
 
 		</table>

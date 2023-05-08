@@ -6,6 +6,14 @@ public class BoardInfo {
 	private String title;
 	private String content;
 	private String writer;
+	private int number;
+	public int getNumber() {
+		return number;
+	}
+	public BoardInfo setNumber(int number) {
+		this.number = number;
+		return this;
+	}
 	private LocalDateTime registerDateTime;
 	public LocalDateTime getRegisterDateTime() {
 		return registerDateTime;

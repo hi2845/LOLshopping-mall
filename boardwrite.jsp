@@ -20,27 +20,6 @@
 div {
 	width: 90%;
 }
-
-.board-title {
-	display: inline-block;
-	width: 300px;
-	max-width: 300px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	line-height: 0.9; /* 라인 높이 설정 */
-	white-space: nowrap;
-}
-
-.board-writer {
-	display: inline-block;
-	width: 150px;
-	max-width: 200px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	line-height: 0.9; /* 라인 높이 설정 */
-	
-	white-space: nowrap;
-}
 </style>
 </head>
 <body>
@@ -52,12 +31,13 @@ div {
 	List<BoardInfo> boards = new ArrayList<BoardInfo>();
 	try {
 
-		stmt = conn.prepareStatement("select * from board");
+		stmt = conn.prepareStatement("select * from board ORDER BY titlenum DESC");
 		rs = stmt.executeQuery();
 
 		while (rs.next()) {
 			BoardInfo board = new BoardInfo();
 			board.setTitle(rs.getString("title"));
+			board.setNumber(rs.getInt("titlenum"));
 			board.setContent(rs.getString("content"));
 			board.setWriter(rs.getString("writer"));
 			board.setRegisterDateTime(rs.getTimestamp("date").toLocalDateTime());
@@ -81,34 +61,76 @@ div {
 		}
 	}
 	%>
-
 	<div class="container">
-		<img src="img/board.jpg" alt="My Image" width="90%" height="15%">
+		<img src="img/board.jpg" alt="My Image" width="100%" height="15%">
 		<h2>게시판</h2>
 		<br>
 		<form action="board.jsp" method="post">
-			<table class="table table-hover"  border="1">
-				<%
-				for (BoardInfo board : boards) {
-				%><tr>
-					<th>
-						<%
-						out.print("<p><span class='board-title'>" + num + "번 <a href='./boardshow.jsp?title=" + board.getTitle() + "'>"
-								+ board.getTitle() + "</a></span>");
-						out.print(" <span class='board-writer'>글쓴이 " + board.getWriter() + "</span>");
-						out.print(" 작성일 " + board.getRegisterDateTime().toLocalDate());
-						num++;
-						}
-						%>
-					</th>
-				</tr>
-				<%
+			<table class="table table-hover" width="90%" border="0">
+				<thead>
+					<tr>
+						<th width="10%">번호</th>
+						<th>제목</th>
+						<th width="10%">글쓴이</th>
+						<th width="10%">작성일</th>
+					</tr>
+				</thead>
+				<tbody>
+					<%
+					// 한 페이지에 보여줄 데이터 개수
+					int pageSize = 10;
 
-				%>
+					// 전체 데이터 개수와 전체 페이지 수 계산
+					int totalCount = boards.size();
+					int totalPageCount = (int) Math.ceil((double) totalCount / pageSize);
+
+					// 현재 페이지 번호 파라미터 받기 (파라미터가 없으면 기본값 1로 설정)
+					int currentPage = 1;
+					if (request.getParameter("page") != null) {
+						currentPage = Integer.parseInt(request.getParameter("page"));
+					}
+
+					// 현재 페이지에 해당하는 데이터 계산
+					int start = (currentPage - 1) * pageSize;
+					int end = Math.min(start + pageSize, totalCount);
+					List<BoardInfo> currentBoards = boards.subList(start, end);
+					%>
+					<%
+					for (BoardInfo board : currentBoards) {
+					%>
+					<tr>
+						<td><a href="./boardshow.jsp?title=<%=board.getNumber()%>"><%=(currentPage - 1) * 10 + num %></a></td>
+						<td><a href="./boardshow.jsp?title=<%=board.getNumber()%>"><%=board.getTitle()%></a>
+						</td>
+						<td><%=board.getWriter()%></td>
+						<td><%=board.getRegisterDateTime().toLocalDate()%></td>
+					</tr>
+					<%
+					num++;
+					}
+					%>
+
+				</tbody>
 			</table>
+			<%
+			if (currentPage > 1) {
+				out.print("<a href='boardwrite.jsp?page=" + (currentPage - 1) + "'>&lt; 이전</a>");
+			}
+			for (int i = 1; i <= totalPageCount; i++) {
+				if (i == currentPage) {
+					out.print("<a class='active' href='boardwrite.jsp?page=" + i + "'>" + i + "&nbsp</a>");
+				} else {
+					out.print("<a href='boardwrite.jsp?page=" + i + "'>" + i + "&nbsp</a>");
+				}
+			}
+			if (currentPage < totalPageCount) {
+				out.print("<a href='boardwrite.jsp?page=" + (currentPage + 1) + "'>다음 &gt;</a>");
+			}
+			%>
 			<p>
 				<br>
 				<button type="submit" class="btn btn-default">글쓰기</button>
+			</p>
 		</form>
 	</div>
 </body>

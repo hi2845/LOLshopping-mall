@@ -21,7 +21,7 @@ div {
 </head>
 <body>
 	<div class="container">
-		<img src="img/board.jpg" alt="My Image" width="90%" height="15%">
+		<img src="img/board.jpg" alt="My Image" width="100%" height="15%">
 		<h2>게시판 글쓰기</h2>
 		<form action="boardsucess.jsp" method="post">
 			<div class="form-group">
@@ -50,5 +50,3 @@ div {
 	</div>
 </body>
 </html>
-
-
