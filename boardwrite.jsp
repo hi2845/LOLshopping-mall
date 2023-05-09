@@ -25,6 +25,7 @@ div {
 <body>
 	<%@ include file="dbcoon.jsp"%>
 	<%
+	
 	int num = 1;
 	PreparedStatement stmt = null;
 	ResultSet rs = null;
@@ -41,7 +42,7 @@ div {
 			board.setContent(rs.getString("content"));
 			board.setWriter(rs.getString("writer"));
 			board.setRegisterDateTime(rs.getTimestamp("date").toLocalDateTime());
-
+			board.setRating(rs.getString("rating"));
 			boards.add(board);
 		}
 		request.setAttribute("boards", boards);
@@ -66,11 +67,12 @@ div {
 		<h2>게시판</h2>
 		<br>
 		<form action="board.jsp" method="post">
-			<table class="table table-hover" width="90%" border="0">
+			<table class="table table-hover" >
 				<thead>
 					<tr>
 						<th width="10%">번호</th>
 						<th>제목</th>
+						<th width="10%">별점</th>
 						<th width="10%">글쓴이</th>
 						<th width="10%">작성일</th>
 					</tr>
@@ -100,8 +102,8 @@ div {
 					%>
 					<tr>
 						<td><a href="./boardshow.jsp?title=<%=board.getNumber()%>"><%=(currentPage - 1) * 10 + num %></a></td>
-						<td><a href="./boardshow.jsp?title=<%=board.getNumber()%>"><%=board.getTitle()%></a>
-						</td>
+						<td><a href="./boardshow.jsp?title=<%=board.getNumber()%>"><%=board.getTitle()%></a></td>
+						<td><%=board.getRating()%></td>
 						<td><%=board.getWriter()%></td>
 						<td><%=board.getRegisterDateTime().toLocalDate()%></td>
 					</tr>
@@ -132,6 +134,7 @@ div {
 				<button type="submit" class="btn btn-default">글쓰기</button>
 			</p>
 		</form>
+		
 	</div>
 </body>
 </html>

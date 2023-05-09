@@ -17,6 +17,29 @@
 div {
 	width: 90%;
 }
+.star-rating {
+	display: flex;
+	flex-direction: row-reverse;
+	font-size: 32px;
+	line-height: 40px;
+	justify-content: space-around;
+	padding: 0 3px;
+	text-align: center;
+	width: 150px;
+}
+
+.star-rating input {
+	display: none;
+}
+
+.star-rating :checked ~ label {
+	-webkit-text-fill-color: gold;
+}
+
+.star-rating label:hover, .star-rating label:hover ~ label {
+	-webkit-text-fill-color: #fff58c;
+}
+
 </style>
 </head>
 <body>
@@ -40,13 +63,28 @@ div {
 					class="form-control" id="writer" placeholder="작성자(2자-10자)"
 					required="required" name="writer">
 			</div>
+				<label for="writer">별점</label>
+			<div class="star-rating">
+				<input type="radio" id="5-stars" name="rating" value="5" /> 
+				<label for="5-stars" class="star">&#9733;</label> 
+				<input type="radio" id="4-stars" name="rating" value="4" /> 
+				<label for="4-stars" class="star">&#9733;</label> 
+				<input type="radio" id="3-stars" name="rating" value="3" /> 
+				<label for="3-stars" class="star">&#9733;</label>
+				<input type="radio" id="2-stars" name="rating" value="2" /> 
+				<label for="2-stars" class="star">&#9733;</label> 
+				<input type="radio" id="1-star" name="rating" value="1" />
+				<label for="1-star" class="star">&#9733;</label>
+			</div>
+			<p></p>
 			<button type="submit" class="btn btn-default">등록</button>
 		</form>
 		<p>
 		<form action="boardwrite.jsp" method="post">
 			<button type="submit" class="btn btn-default">취소</button>
 		</form>
-
+		
 	</div>
+
 </body>
 </html>

@@ -20,15 +20,34 @@
 div {
 	width: 90%;
 }
+
+.star-rating {
+	display: flex;
+	font-size: 30px;
+	line-height: 25px;
+	justify-content: space-around;
+	padding: 0 3px;
+	text-align: center;
+	width: 150px;
+}
+
+.star-rating .star {
+	color: gray;
+}
+
+.star-rating .star.checked {
+	color: gold;
+}
 </style>
 </head>
 <body>
 	<%
 	request.setCharacterEncoding("utf-8");
-	int Number =Integer.parseInt(request.getParameter("title"));
+	int Number = Integer.parseInt(request.getParameter("title"));
 	String title = "";
 	String content = "";
 	String writer = "";
+	int ratingValue = 0;
 	LocalDateTime date = LocalDateTime.now();
 	%>
 	<%@ include file="dbcoon.jsp"%>
@@ -46,6 +65,7 @@ div {
 			title = rs.getString("title");
 			content = rs.getString("content");
 			writer = rs.getString("writer");
+			ratingValue = Integer.parseInt(rs.getString("rating"));
 			date = rs.getTimestamp("date").toLocalDateTime();
 		}
 
@@ -78,7 +98,19 @@ div {
 			</tr>
 			<tr>
 				<th style="text-align: center;">내용</th>
-				<th style="height: 300px;"><%=content%></th>
+				<th style="height: 200px;"><%=content%></th>
+			</tr>
+			<tr>
+				<th style="text-align: center;">별점</th>
+				<th>
+					<div class="star-rating">
+						<span class="star <%=ratingValue >= 1 ? "checked" : ""%>">&#9733;</span>
+						<span class="star <%=ratingValue >= 2 ? "checked" : ""%>">&#9733;</span>
+						<span class="star <%=ratingValue >= 3 ? "checked" : ""%>">&#9733;</span>
+						<span class="star <%=ratingValue >= 4 ? "checked" : ""%>">&#9733;</span>
+						<span class="star <%=ratingValue >= 5 ? "checked" : ""%>">&#9733;</span>
+					</div>
+				</th>
 			</tr>
 			<tr>
 				<th style="text-align: center;">작성일</th>
