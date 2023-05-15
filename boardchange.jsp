@@ -17,6 +17,7 @@
 div {
 	width: 90%;
 }
+
 .star-rating {
 	display: flex;
 	flex-direction: row-reverse;
@@ -39,20 +40,23 @@ div {
 .star-rating label:hover, .star-rating label:hover ~ label {
 	-webkit-text-fill-color: #fff58c;
 }
-
 </style>
 </head>
 <body>
-<%	String title = request.getParameter("title");
-%>
+	<%
+	request.setCharacterEncoding("utf-8");
+	String title = request.getParameter("title");
+	int number = Integer.parseInt(request.getParameter("number"));
+	 session.setAttribute("number", number);
+	%>
 	<div class="container">
 		<img src="img/board.jpg" alt="My Image" width="100%" height="15%">
 		<h2>게시판 글쓰기</h2>
 		<form action="boardchangesuccess.jsp" method="post">
 			<div class="form-group">
 				<label for="title">제목</label> <input type="text"
-					class="form-control" id="title" value="<%=title %>"
-					name="title" maxlength="100" required="required" pattern=".{4,100}" readonly>
+					class="form-control" id="title" value="<%=title%>" name="title"
+					maxlength="100" required="required" pattern=".{4,100}" readonly>
 			</div>
 			<div class="form-group">
 				<label for="content">내용</label>
@@ -60,19 +64,18 @@ div {
 					placeholder="내용 작성" style="resize: none;"></textarea>
 			</div>
 			<p>
-		
+
 				<label for="writer">별점</label>
 			<div class="star-rating">
-				<input type="radio" id="5-stars" name="rating" value="5" /> 
-				<label for="5-stars" class="star">&#9733;</label> 
-				<input type="radio" id="4-stars" name="rating" value="4" /> 
-				<label for="4-stars" class="star">&#9733;</label> 
-				<input type="radio" id="3-stars" name="rating" value="3" /> 
-				<label for="3-stars" class="star">&#9733;</label>
-				<input type="radio" id="2-stars" name="rating" value="2" /> 
-				<label for="2-stars" class="star">&#9733;</label> 
-				<input type="radio" id="1-star" name="rating" value="1" />
-				<label for="1-star" class="star">&#9733;</label>
+				<input type="radio" id="5-stars" name="rating" value="5" /> <label
+					for="5-stars" class="star">&#9733;</label> <input type="radio"
+					id="4-stars" name="rating" value="4" /> <label for="4-stars"
+					class="star">&#9733;</label> <input type="radio" id="3-stars"
+					name="rating" value="3" /> <label for="3-stars" class="star">&#9733;</label>
+				<input type="radio" id="2-stars" name="rating" value="2" /> <label
+					for="2-stars" class="star">&#9733;</label> <input type="radio"
+					id="1-star" name="rating" value="1" /> <label for="1-star"
+					class="star">&#9733;</label>
 			</div>
 			<p></p>
 			<button type="submit" class="btn btn-default">등록</button>
@@ -81,7 +84,7 @@ div {
 		<form action="boardwrite.jsp" method="post">
 			<button type="submit" class="btn btn-default">취소</button>
 		</form>
-		
+
 	</div>
 
 </body>

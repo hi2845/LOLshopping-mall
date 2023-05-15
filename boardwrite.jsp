@@ -42,6 +42,7 @@ div {
 	ResultSet rs = null;
 	List<BoardInfo> boards = new ArrayList<BoardInfo>();
 	String id = (String) session.getAttribute("userId");
+
 	try {
 
 		stmt = conn.prepareStatement("select * from board ORDER BY titlenum DESC");
@@ -74,25 +75,33 @@ div {
 		}
 	}
 	%>
+	<%
+	if (id == null) {
+	%>
+	<div style="text-align: right;">
+		<h4>로그인 하러가기</h4>
+		<h4>
+			<a href="loginpage.jsp">로그인</a>
+		</h4>
+	</div>
+	<%
+	} else {
+	%>
+	<div style="text-align: right;">
+		<h4><%=id%>님
+		</h4>
+		<h4>
+			<a href="logoutboard.jsp">로그아웃</a>
+		</h4>
+	</div>
+	<%
+	}
+	%>
+
 	<div class="container">
 		<img src="img/board.jpg" alt="My Image" width="100%" height="15%">
 		<h2>게시판</h2>
 		<%@ include file="boardmenu.jsp"%>
-		<%
-		if (id == null) {
-		%>
-		<div style="text-align: right;">
-			<a href="loginpage.jsp">로그인</a>
-		</div>
-		<%
-		} else {
-		%>
-		<div style="text-align: right;"><%=id%>님
-			<a href="logoutboard.jsp">로그아웃</a>
-		</div>
-		<%
-		}
-		%>
 		<br>
 		<form action="board.jsp" method="post" name="member">
 			<table class="table table-hover">

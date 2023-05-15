@@ -45,9 +45,6 @@ div {
 	request.setCharacterEncoding("utf-8");
 	int Number = Integer.parseInt(request.getParameter("title"));
 	String id = (String) session.getAttribute("userId");
-	if(id == null){
-		id="";
-	}
 	String title = "";
 	String content = "";
 	String writer = "";
@@ -88,6 +85,31 @@ div {
 		}
 	}
 	%>
+	<%
+	if (id == null) {
+	%>
+	<div style="text-align: right;">
+		<h4>로그인 하러가기</h4>
+		<h4>
+			<a href="loginpage.jsp">로그인</a>
+		</h4>
+	</div>
+	<%
+	} else {
+	%>
+	<div style="text-align: right;">
+		<h4><%=id%>님
+		</h4>
+		<h4>
+			<a href="logoutboard.jsp">로그아웃</a>
+		</h4>
+	</div>
+	<%
+	}
+	if(id == null){
+		id="";
+	}
+	%>
 	<div class="container">
 		<img src="img/board.jpg" alt="My Image" width="100%" height="15%">
 		<h2>게시글</h2>
@@ -124,7 +146,7 @@ div {
 		</table>
 		<form action="boardwrite.jsp" method="post">
 		<%if(id.equals(writer)){ %>
-		<button type="button" class="btn btn-default"><a href="boardchange.jsp?title=<%=title%>">수정 &nbsp</a></button>
+		<button type="button" class="btn btn-default"><a href="boardchange.jsp?title=<%=title%>&number=<%=Number%>">수정 &nbsp</a></button>
 		<%} %>
 			<button type="submit" class="btn btn-default">뒤로</button>
 		</form>

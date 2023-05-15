@@ -16,16 +16,17 @@
 	String content = request.getParameter("content");
 	String writer = (String) session.getAttribute("userId");
 	String rating = request.getParameter("rating");
+	int number =(int) session.getAttribute("number");
 	int num = 1;
 	PreparedStatement pstmt = null;
 
 	if (writer != null) {
 		try {
-			String sql = "update board set content=? ,rating =? where title= ?";
+			String sql = "update board set content=? ,rating =? where titlenum= ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, content);
 			pstmt.setString(2, rating);
-			pstmt.setString(3, title);
+			pstmt.setInt(3, number);
 			pstmt.executeUpdate();
 
 		} catch (Exception excep) {
