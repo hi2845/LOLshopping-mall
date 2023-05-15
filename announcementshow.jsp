@@ -44,7 +44,6 @@ div {
 	<%
 	request.setCharacterEncoding("utf-8");
 	int Number = Integer.parseInt(request.getParameter("title"));
-	String id = (String) session.getAttribute("userId");
 	String title = "";
 	String content = "";
 	String writer = "";
@@ -58,7 +57,7 @@ div {
 	ResultSet rs = null;
 	try {
 
-		stmt = conn.prepareStatement("select * from board where titlenum='" + Number + "'");
+		stmt = conn.prepareStatement("select * from announcement where titlenum='" + Number + "'");
 
 		rs = stmt.executeQuery();
 
@@ -66,7 +65,6 @@ div {
 			title = rs.getString("title");
 			content = rs.getString("content");
 			writer = rs.getString("writer");
-			ratingValue = Integer.parseInt(rs.getString("rating"));
 			date = rs.getTimestamp("date").toLocalDateTime();
 		}
 
@@ -102,27 +100,12 @@ div {
 				<th style="height: 200px;"><%=content%></th>
 			</tr>
 			<tr>
-				<th style="text-align: center;">별점</th>
-				<th>
-					<div class="star-rating">
-						<span class="star <%=ratingValue >= 1 ? "checked" : ""%>">&#9733;</span>
-						<span class="star <%=ratingValue >= 2 ? "checked" : ""%>">&#9733;</span>
-						<span class="star <%=ratingValue >= 3 ? "checked" : ""%>">&#9733;</span>
-						<span class="star <%=ratingValue >= 4 ? "checked" : ""%>">&#9733;</span>
-						<span class="star <%=ratingValue >= 5 ? "checked" : ""%>">&#9733;</span>
-					</div>
-				</th>
-			</tr>
-			<tr>
 				<th style="text-align: center;">작성일</th>
 				<th style="text-align: center;"><%=date.toLocalDate()%></th>
 			</tr>
 
 		</table>
-		<form action="boardwrite.jsp" method="post">
-		<%if(id.equals(writer)){ %>
-		<button type="buttin" class="btn btn-default"><a href="boardchange.jsp?title=<%=title%>">수정 &nbsp</a></button>
-		<%} %>
+		<form action="announcement.jsp" method="post">
 			<button type="submit" class="btn btn-default">뒤로</button>
 		</form>
 	</div>

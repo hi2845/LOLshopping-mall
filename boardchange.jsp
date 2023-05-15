@@ -43,13 +43,15 @@ div {
 </style>
 </head>
 <body>
+<%	String title = request.getParameter("title");
+%>
 	<div class="container">
 		<img src="img/board.jpg" alt="My Image" width="100%" height="15%">
 		<h2>게시판 글쓰기</h2>
-		<form action="boardsucess.jsp" method="post">
+		<form action="boardchangesuccess.jsp" method="post">
 			<div class="form-group">
 				<label for="title">제목</label> <input type="text"
-					class="form-control" id="title" placeholder="제목 입력(4-100)"
+					class="form-control" id="title" value="<%=title %>"
 					name="title" maxlength="100" required="required" pattern=".{4,100}">
 			</div>
 			<div class="form-group">

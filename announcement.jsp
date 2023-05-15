@@ -35,7 +35,6 @@ div {
 </head>
 <body>
 	<%@ include file="dbconn.jsp"%>
-
 	<%
 	int num = 1;
 	PreparedStatement stmt = null;
@@ -44,7 +43,7 @@ div {
 	String id = (String) session.getAttribute("userId");
 	try {
 
-		stmt = conn.prepareStatement("select * from board ORDER BY titlenum DESC");
+		stmt = conn.prepareStatement("select * from announcement ORDER BY titlenum DESC");
 		rs = stmt.executeQuery();
 
 		while (rs.next()) {
@@ -54,7 +53,6 @@ div {
 			board.setContent(rs.getString("content"));
 			board.setWriter(rs.getString("writer"));
 			board.setRegisterDateTime(rs.getTimestamp("date").toLocalDateTime());
-			board.setRating(rs.getString("rating"));
 			boards.add(board);
 		}
 		request.setAttribute("boards", boards);
@@ -76,32 +74,15 @@ div {
 	%>
 	<div class="container">
 		<img src="img/board.jpg" alt="My Image" width="100%" height="15%">
-		<h2>게시판</h2>
+		<h2>공지사항</h2>
 		<%@ include file="boardmenu.jsp"%>
-		<%
-		if (id == null) {
-		%>
-		<div style="text-align: right;">
-			<a href="loginpage.jsp">로그인</a>
-		</div>
-		<%
-		} else {
-		%>
-		<div style="text-align: right;"><%=id%>님
-			<a href="logoutboard.jsp">로그아웃</a>
-		</div>
-		<%
-		}
-		%>
 		<br>
 		<form action="board.jsp" method="post" name="member">
 			<table class="table table-hover">
-
 				<thead>
 					<tr>
 						<th width="10%">번호</th>
 						<th>제목</th>
-						<th width="10%">별점</th>
 						<th width="10%">글쓴이</th>
 						<th width="10%">작성일</th>
 					</tr>
@@ -130,9 +111,8 @@ div {
 					for (BoardInfo board : currentBoards) {
 					%>
 					<tr>
-						<td><a href="./boardshow.jsp?title=<%=board.getNumber()%>"><%=(currentPage - 1) * 10 + num%></a></td>
-						<td><a href="./boardshow.jsp?title=<%=board.getNumber()%>"><%=board.getTitle()%></a></td>
-						<td><%=board.getRating()%></td>
+						<td><a href="./announcementshow.jsp?title=<%=board.getNumber()%>"><%=(currentPage - 1) * 10 + num%></a></td>
+						<td><a href="./announcementshow.jsp?title=<%=board.getNumber()%>"><%=board.getTitle()%></a></td>
 						<td><%=board.getWriter()%></td>
 						<td><%=board.getRegisterDateTime().toLocalDate()%></td>
 					</tr>
@@ -145,31 +125,27 @@ div {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td></td>
 					</tr>
 				</tbody>
 			</table>
 			<div style="text-align: center;">
 				<%
 				if (currentPage > 1) {
-					out.print("<a href='boardwrite.jsp?page=" + (currentPage - 1) + "'>&lt; 이전</a>");
+					out.print("<a href='announcement.jsp?page=" + (currentPage - 1) + "'>&lt; 이전</a>");
 				}
 				for (int i = 1; i <= totalPageCount; i++) {
 					if (i == currentPage) {
-						out.print("<b><a class='active' href='boardwrite.jsp?page=" + i + "'>" + i + "&nbsp</a></b>");
+						out.print("<b><a class='active' href='announcement.jsp?page=" + i + "'>" + i + "&nbsp</a></b>");
 					} else {
-						out.print("<a href='boardwrite.jsp?page=" + i + "'>" + i + "&nbsp</a>");
+						out.print("<a href='announcement.jsp?page=" + i + "'>" + i + "&nbsp</a>");
 					}
 				}
 				if (currentPage < totalPageCount) {
-					out.print("<a href='boardwrite.jsp?page=" + (currentPage + 1) + "'>다음 &gt;</a>");
+					out.print("<a href='announcement.jsp?page=" + (currentPage + 1) + "'>다음 &gt;</a>");
 				}
 				%>
 			</div>
-			<p>
-				<input type="hidden" value="<%=id%>" name="id"> <br> <input
-					type="button" value="글쓰기" onclick="LoginCheck()" name="bt">
-			</p>
+			<p></p>
 		</form>
 	</div>
 </body>
