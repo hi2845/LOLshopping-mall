@@ -52,7 +52,7 @@ div {
 			<div class="form-group">
 				<label for="title">제목</label> <input type="text"
 					class="form-control" id="title" value="<%=title %>"
-					name="title" maxlength="100" required="required" pattern=".{4,100}">
+					name="title" maxlength="100" required="required" pattern=".{4,100}" readonly>
 			</div>
 			<div class="form-group">
 				<label for="content">내용</label>

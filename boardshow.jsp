@@ -45,6 +45,9 @@ div {
 	request.setCharacterEncoding("utf-8");
 	int Number = Integer.parseInt(request.getParameter("title"));
 	String id = (String) session.getAttribute("userId");
+	if(id == null){
+		id="";
+	}
 	String title = "";
 	String content = "";
 	String writer = "";
@@ -121,7 +124,7 @@ div {
 		</table>
 		<form action="boardwrite.jsp" method="post">
 		<%if(id.equals(writer)){ %>
-		<button type="buttin" class="btn btn-default"><a href="boardchange.jsp?title=<%=title%>">수정 &nbsp</a></button>
+		<button type="button" class="btn btn-default"><a href="boardchange.jsp?title=<%=title%>">수정 &nbsp</a></button>
 		<%} %>
 			<button type="submit" class="btn btn-default">뒤로</button>
 		</form>
