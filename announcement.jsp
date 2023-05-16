@@ -36,6 +36,7 @@ div {
 <body>
 	<%@ include file="dbconn.jsp"%>
 	<%
+	request.setCharacterEncoding("utf-8");
 	int num = 1;
 	PreparedStatement stmt = null;
 	ResultSet rs = null;
@@ -72,6 +73,29 @@ div {
 		}
 	}
 	%>
+	<%
+	if (id == null) {
+	%>
+	<div style="text-align: right;">
+		<h4>로그인 하러가기</h4>
+		<h4>
+			<a href="loginpage.jsp">로그인</a>
+		</h4>
+	</div>
+	<%
+	} else {
+	%>
+	<div style="text-align: right;">
+		<h4><%=id%>님
+		</h4>
+		<h4>
+			<a href="logoutboard.jsp">로그아웃</a>
+		</h4>
+	</div>
+	<%
+	}
+	%>
+	
 	<div class="container">
 		<img src="img/board.jpg" alt="My Image" width="100%" height="15%">
 		<h2>공지사항</h2>
