@@ -5,19 +5,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <meta charset="utf-8">
 <title>Insert title here</title>
-<style type="text/css">
-#ctxt {
-	color: blue;
-} /* id명이 ctxt인 요소의 글자들을 파란색으로 처리함 */
-.p {
-	border: 10px groove #06c;
+<style>
+label {
+  display: inline-block;
+  width: 100px;
+  margin-bottom: 10px;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+  width: 200px;
+  padding: 5px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 </style>
 </head>
 <body>
+	<%request.setCharacterEncoding("utf-8");%>
 	<script type="text/javascript">
 function check(input){
 	var form = document.frm;
@@ -38,7 +45,8 @@ function check(input){
 	var regExpPw = /^[a-zA-Z0-9!@#$%^&*()?_~]*$/;
 	var regExpPhone= /^\d{3}-\d{3,4}-\d{4}$/;
 	var regExpEmail= /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-/* var result = document.getElementById("result"); */
+	let duplicateButton = document.getElementById('duplicateBtn');
+	/* var result = document.getElementById("result"); */
 if(userName.value == ""){
 	alert("이름을 입력해주세요.");
 	userName.focus();
@@ -51,7 +59,10 @@ if(userName.value == ""){
 	alert("이름은 한글만으로 입력해주세요.");
 	userName.select();
 	return false;
-
+	
+}else if(duplicateButton.disabled == false){
+	alert("아이디 중복검사를 해주세요.")
+	return false;
 }else if(userId.value ==""){
 	alert("아이디를 입력하세요.");
 	 userId.focus();
@@ -98,39 +109,42 @@ else if(userId.value.length < 4 || userId.value.length > 12){
 	return false;
 
 	}
-
 }
-
 function duplicateCheck(){
+	
 	var child = window.open('duplicate.jsp','child', 'width=500, height=500');
-
-	 //child.opener = self;
-	 
-}/* function setAbleId(id) {
-    var id = input.value;
-    document.getElementById("id").value = opener.document.userId.value;
-} */
+	
+	
+	let duplicate = false;
+	let duplicateButton = document.getElementById('duplicateBtn');
+	if(duplicate){
+		duplicateButton.disabled = false;
+	}else{
+		duplicateButton.disabled = true;
+	}
+}
+function resetOn(){
+	let duplicateButton = document.getElementById('duplicateBtn');
+	let resetButton = document.getElementById('resetBtn')
+	duplicateButton.disabled = false;
+}
 </script>
-
-
-	<h3>
-		<p id="ctxt">회원가입창
-	</h3>
+	<fieldset>
+		<legend><h3>회원가입창</h3></legend>
 	<form name="frm" method="post" action="register.jsp">
-		<p>
-			이름 : <input type="text" name="name">
-		</p>
-		<p>
-			아이디 : <input type="text" name="id" id="id"
-				placeholder="아이디는 4~12자 이내로 입력해주세요." size="30"> <input
-				type="button" value="중복검사하기" onclick="duplicateCheck()">
+		<p id="ctxt">
+		<label for = "name">이름
+		<input type="text" name="name" placeholder ="이름을 입력해주세요.">
+		
+		
+			아이디 : <input type="text" name="id" id="id" placeholder="아이디를 입력해주세요." readonly> 
+				<input type="button" id="duplicateBtn" value="중복검사하기" onclick="duplicateCheck()">
 		<p>
 			비밀번호 : <input type="password" name="pw"
-				placeholder="비밀번호는 6~12자 이내로 입력해주세요." size="35">
+				placeholder="비밀번호는 6~12자 이내로" size="35">
 		<p>
 			비밀번호 확인: <input type="password" name="re_pw">
 
-		</p>
 		<p>
 			포지션 : <input type="radio" name="position" value="탑">탑 <input
 				type="radio" name="position" value="미드">미드 <input
@@ -138,7 +152,6 @@ function duplicateCheck(){
 				type="radio" name="position" value="원딜">원딜 <input
 				type="radio" name="position" value="서폿">서폿
 
-		</p>
 
 		<p>
 			이메일 : <input type="text" name="email1" size="15">@<select
@@ -182,7 +195,6 @@ function duplicateCheck(){
 				%>
 			</select>일
 
-		</p>
 		<p>주소
 		<p>
 			<input type="text" name="postcode" id="postcode" placeholder="우편번호">
@@ -250,10 +262,9 @@ function duplicateCheck(){
 				}
 			</script>
 
-		</p>
-		<p>
-			잔고 <input type="text" name="balance" value="0" readonly>(자동입력)
-		</p>
+		<!-- <p>
+			잔고 <input type="text" name="balance" value="0" readonly>(자동입력) -->
+			<input type="hidden" name="balance" value="0">
 		<p>연락처 :
 		<p>
 			<select name="phone1">
@@ -267,14 +278,17 @@ function duplicateCheck(){
 				type="button" value="중복검사하기">
 		</p>
 		<p>
-			회원등급<input type="text" name="grade" value="bronze" readonly>(자동입력)
-
-		<p>
+			<!-- 회원등급<input type="text" name="grade" value="bronze" readonly>(자동입력) -->
+			<input type="hidden" name="grade" value="bronze">
+			
+			</fieldset>
+		
+		
 			<input type="submit" value="가입하기" onclick="return check()">
-		</p>
-		<p>
-			<input type="reset" value="다시쓰기">
-		</p>
+	
+			<input type="reset" value="다시쓰기" id="resetBtn" onclick="resetOn()">
+		
 	</form>
+	</table>
 </body>
 </html>
