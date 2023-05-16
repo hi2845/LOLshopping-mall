@@ -16,6 +16,13 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	function goToBoardChange(title, number) {
+		var url = 'boardchange.jsp?title=' + encodeURIComponent(title)
+				+ '&number=' + encodeURIComponent(number);
+		location.href = url;
+	}
+</script>
 <style>
 div {
 	width: 90%;
@@ -106,8 +113,8 @@ div {
 	</div>
 	<%
 	}
-	if(id == null){
-		id="";
+	if (id == null) {
+	id = "";
 	}
 	%>
 	<div class="container">
@@ -145,9 +152,14 @@ div {
 
 		</table>
 		<form action="boardwrite.jsp" method="post">
-		<%if(id.equals(writer)){ %>
-		<button type="button" class="btn btn-default"><a href="boardchange.jsp?title=<%=title%>&number=<%=Number%>">수정 &nbsp</a></button>
-		<%} %>
+			<%
+			if (id.equals(writer)) {
+			%>
+			<button type="button" class="btn btn-default"
+				onclick="goToBoardChange('<%=title%>', '<%=Number%>')">수정</button>
+			<%
+			}
+			%>
 			<button type="submit" class="btn btn-default">뒤로</button>
 		</form>
 	</div>

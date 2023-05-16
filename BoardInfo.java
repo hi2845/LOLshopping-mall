@@ -6,6 +6,14 @@ public class BoardInfo {
 	private String title;
 	private String content;
 	private String writer;
+	private String rating;
+	public String getRating() {
+		return rating;
+	}
+	public BoardInfo setRating(String rating) {
+		this.rating = rating;
+		return this;
+	}
 	private int number;
 	public int getNumber() {
 		return number;

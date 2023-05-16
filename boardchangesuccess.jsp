@@ -16,6 +16,9 @@
 	String content = request.getParameter("content");
 	String writer = (String) session.getAttribute("userId");
 	String rating = request.getParameter("rating");
+	if(rating == null){
+		rating = "0";
+	}
 	int number =(int) session.getAttribute("number");
 	int num = 1;
 	PreparedStatement pstmt = null;

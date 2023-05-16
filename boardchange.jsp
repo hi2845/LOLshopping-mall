@@ -13,6 +13,19 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	function DeleteCheck() {
+		if (confirm("삭제하시겠습니까?")) {
+			// 예를 선택한 경우 실행할 동작
+			return true; // 하이퍼링크를 계속 따라갑니다.
+		} else {
+			// 아니오를 선택한 경우 실행할 동작
+			alert("삭제가 취소되었습니다.");
+			 event.preventDefault(); 
+			return false; // 하이퍼링크를 따라가지 않습니다.
+		}
+	}
+</script>
 <style>
 div {
 	width: 90%;
@@ -47,7 +60,7 @@ div {
 	request.setCharacterEncoding("utf-8");
 	String title = request.getParameter("title");
 	int number = Integer.parseInt(request.getParameter("number"));
-	 session.setAttribute("number", number);
+	session.setAttribute("number", number);
 	%>
 	<div class="container">
 		<img src="img/board.jpg" alt="My Image" width="100%" height="15%">
@@ -79,6 +92,10 @@ div {
 			</div>
 			<p></p>
 			<button type="submit" class="btn btn-default">등록</button>
+			<button type="button" class="btn btn-default">
+				<a href="boarddelete.jsp?number=<%=number%>" onclick="DeleteCheck()">삭제
+					&nbsp</a>
+			</button>
 		</form>
 		<p>
 		<form action="boardwrite.jsp" method="post">
